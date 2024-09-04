@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Library</title>
+    <link rel="stylesheet" href="homestyles.css">
+    <style>
+        /* CSS for account icon and dropdown menu */
+        .account-icon {
+            position: absolute;
+            display: inline-block;
+        }
+
+        #accountImg :hover{
+            cursor: pointer;
+        }
+
+        .dropdown  {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            top: 40px; /* Adjust as needed */
+            right: 0;
+            padding: 10px;
+        }
+
+        .dropdown-content {
+            display: block;
+            color: black;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown-content p {
+            padding: 12px 16px;
+            margin: 0;
+        }
+
+        .dropdown.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Library</h1>
+        <div class="account-icon" id="accountIcon">
+            <img src="account-icon.jpg" alt="Account Icon" id="accountImg" onclick="toggleDropdown()">
+            <span id="userEmail"></span>
+            <div class="dropdown" id="dropdownMenu">
+                <!-- This dropdown will only be visible if the user is not logged in -->
+                <div class="option-group" id="loginOptions">
+                    <h3>Student</h3>
+                    <a href="student-login.php" class="btn">Login</a>
+                    <a href="student-registration.php" class="btn">Sign Up</a>
+                </div>
+                <div class="option-group" id="staffLoginOptions">
+                    <h3>Staff</h3>
+                    <a href="staff-login.php" class="btn">Login</a>
+                    <a href="staff-registration.php" class="btn">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <p>Select an option below to manage your books:</p>
+        <div class="options-container">
+            <a href="book-issue.php" class="main-btn">Book Issue</a>
+            <a href="book-return.php" class="main-btn">Book Return</a>
+        </div>
+    </main>
+
+    <script>
+        // Function to toggle the dropdown
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdownMenu");
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+            } else {
+                dropdown.style.display = "block";
+            }
+        }
+
+        // Function to update the UI based on login status
+        function updateUI() {
+            var userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('userEmail').textContent = userEmail;
+                document.getElementById('accountImg').style.display = 'none';
+                document.getElementById('loginOptions').style.display = 'none';
+                document.getElementById('staffLoginOptions').style.display = 'none';
+            } else {
+                document.getElementById('userEmail').style.display = 'none';
+            }
+        }
+
+        // Run updateUI on page load
+        window.onload = function() {
+            updateUI();
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.account-icon, .account-icon *')) {
+                var dropdown = document.getElementById("dropdownMenu");
+                if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
